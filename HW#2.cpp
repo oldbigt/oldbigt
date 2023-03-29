@@ -13,11 +13,11 @@ int front = 1;
 int rear = 1;
 int main()
 {
-	char customer[13] = { 'A','B','C','D','E','F','G','H','I','J','K','L','O' };
-	int arrive[13] =    { 480,485,490,495,500,505,510,515,520,525,530,535,0 };
-	int start[13];
-	int cost[13];
-	char queue[13];
+	char customer[12] = { 'A','B','C','D','E','F','G','H','I','J','K','L' };
+	int arrive[12] =    { 480,485,490,495,500,505,510,515,520,525,530,535 };
+	int start[12];
+	int cost[12];
+	char queue[12];
 	int time = 480;
 	costtime(customer, cost);
 	printf("\n");
@@ -30,18 +30,21 @@ int main()
 	int j = 0;
 	char sline;
 	while (time < start[11] + cost[11]) {
-		printf("%d:%02d:%02d:%02d:%02d:%02d ", time / 60, time % 60,i,j,time, start[11] + cost[11]);
+		//printf("%02d:%02d %02d:%02d ", time / 60, time % 60,time, start[11] + cost[11]);
+		printf("%02d:%02d ", time / 60, time % 60);
 		
 		if (time == arrive[i]) {
 			addq(queue, customer[i]);
 			i++;
 		}
 		if (time == start[j]) {
-			sline = deleteq(queue);
 			j++;
+			sline = deleteq(queue);			
+			
 		}
-		if (time < arrive[j - 1] + cost[j - 1]) {
-			printf("%c	", sline);
+		
+		if (time< start[j - 1] + cost[j - 1]) {
+			printf("S:%c(%02d) ", sline, cost[j - 1]);
 		}
 		else
 			printf(" ");
@@ -97,8 +100,9 @@ char deleteq(char queue[]) {
 }
 void printq(char queue[]) {
 	int i = front;
+	printf("W:");
 	while (i != rear) {
 		i = (i + 1) % MAX_SIZE;
-		printf("%c", queue[i]);
+		printf(" %c ", queue[i]);
 	}
 }
